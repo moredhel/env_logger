@@ -1,4 +1,4 @@
-package main
+package env_logger
 
 import (
 	"runtime"
@@ -153,12 +153,4 @@ func Fatal(args ...interface{})  {
 		log.Fatal(args...)
 	}
 	printLog(lambda)
-}
-
-func main() {
-	ConfigureDefaultLogger()
-	Fatal("this is a library, https://github.com/hamht1066/env_logger")
-}
-
-func init() {
 }
