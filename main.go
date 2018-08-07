@@ -55,6 +55,12 @@ func configurePackageLogger(log *logger.Logger, value int) *logger.Logger {
 	return log
 }
 
+// ConfigureDefaultLogger instantiates a default logger instance
+func ConfigureDefaultLogger()  {
+    defaultLogger = logger.New()
+    ConfigureLogger(defaultLogger)
+}
+
 // ConfigureLogger takes in a prefix and a logger object and configures the logger depending on environment variables. 
 // Configured based on the GOLANG_DEBUG environment variable
 func ConfigureLogger(newDefaultLogger *logger.Logger)  {
@@ -152,10 +158,9 @@ func Fatal(args ...interface{})  {
 }
 
 func main() {
+	ConfigureDefaultLogger()
 	Fatal("this is a library, https://github.com/hamht1066/env_logger")
 }
 
 func init() {
-	defaultLogger = logger.New()
-	ConfigureLogger(defaultLogger)
 }
