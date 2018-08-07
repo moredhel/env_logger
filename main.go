@@ -23,7 +23,7 @@ type Logger interface {
 	Debug(...interface{}) // emit debug message
 	Info(...interface{})
 	Warn(...interface{})
-	Panic(...interface{})
+	Fatal(...interface{})
 }
 
 func toEnum(s string) int {
@@ -74,8 +74,6 @@ func ConfigureLogger(newDefaultLogger *logger.Logger)  {
 			} else {
 				newDefaultLogger.Fatal("line: '", pkg, "' is formatted incorrectly, please refer to the documentation for correct usage")
 			}
-
-			newDefaultLogger.Warn("pkg:", pkg)
 		}
 	}
 
@@ -146,11 +144,15 @@ func Debug(args ...interface{})  {
 	printLog(lambda)
 }
 
+func Fatal(args ...interface{})  {
+	lambda := func(log Logger) {
+		log.Fatal(args...)
+	}
+	printLog(lambda)
+}
+
 func main() {
-	Warn("--------")
-	Warn("warn")
-	Info("info")
-	Debug("debug")
+	Fatal("this is a library, https://github.com/hamht1066/env_logger")
 }
 
 func init() {
