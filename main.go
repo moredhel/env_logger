@@ -4,12 +4,12 @@ import (
 	"runtime"
 	"os"
 	"strings"
-	logger "github.com/Sirupsen/logrus"
+	logrus "github.com/Sirupsen/logrus"
 )
 
 var (
-	defaultLogger *logger.Logger
-	loggers = make(map[string]*logger.Logger)
+	defaultLogger *logrus.Logger
+	loggers = make(map[string]*logrus.Logger)
 )
 
 const (
@@ -19,8 +19,8 @@ const (
 )
 
 type Logger interface {
-  // New()  Logger // used to instantiate a new logger
-	Debug(...interface{}) // emit debug message
+        // New()  Logger // used to instantiate a new logger
+	Debug(...interface{})
 	Info(...interface{})
 	Warn(...interface{})
 	Fatal(...interface{})
@@ -35,38 +35,36 @@ func toEnum(s string) int {
 	case "info":
 		return InfoV
 	default:
-		// TODO: add log output saying defaulting to info
 		return InfoV
 	}
 
 }
 
-func configurePackageLogger(log *logger.Logger, value int) *logger.Logger {
+func configurePackageLogger(log *logrus.Logger, value int) *logrus.Logger {
 	switch value {
 	case WarnV:
-		log.SetLevel(logger.WarnLevel)
+		log.SetLevel(logrus.WarnLevel)
 	case InfoV:
-		log.SetLevel(logger.InfoLevel)
+		log.SetLevel(logrus.InfoLevel)
 	case DebugV:
-		log.SetLevel(logger.DebugLevel)
+		log.SetLevel(logrus.DebugLevel)
 	default:
-		log.SetLevel(logger.InfoLevel)
+		log.SetLevel(logrus.InfoLevel)
 	}
 	return log
 }
 
 // ConfigureDefaultLogger instantiates a default logger instance
 func ConfigureDefaultLogger()  {
-    defaultLogger = logger.New()
+    defaultLogger = logrus.New()
     ConfigureLogger(defaultLogger)
 }
 
 // ConfigureLogger takes in a prefix and a logger object and configures the logger depending on environment variables. 
 // Configured based on the GOLANG_DEBUG environment variable
-func ConfigureLogger(newDefaultLogger *logger.Logger)  {
+func ConfigureLogger(newDefaultLogger *logrus.Logger)  {
 	levels := make(map[string]int)
 
-	// TODO: do parsing and stuff for the env-var
 	if debugRaw, ok := os.LookupEnv("GOLANG_LOG"); ok {
 		packages := strings.Split(debugRaw, ",")
 
@@ -84,7 +82,7 @@ func ConfigureLogger(newDefaultLogger *logger.Logger)  {
 	}
 
 	for key, value := range levels {
-		loggers[key] = configurePackageLogger(logger.New(), value)
+		loggers[key] = configurePackageLogger(logrus.New(), value)
 	}
 
 	// configure main logger
