@@ -1,9 +1,6 @@
 # env_logger
 
-This is a super simple project which aims to help out with setting up logging correctly in your project
-
-It exposes a single function `ConfigureLogger` which takes in a prefix (the name of your application)
-as well as the logger that you wish to configure.
+This is a super simple project which aims to help out with setting up logging correctly in your project.
 
 Currently it only supports `logrus`, but PR's are welcome to support additional loggers.
 
