@@ -8,6 +8,7 @@ import (
 )
 
 var (
+	internalLogger = logrus.New()
 	defaultLogger *logrus.Logger
 	loggers = make(map[string]*logrus.Logger)
 )
@@ -52,6 +53,11 @@ func configurePackageLogger(log *logrus.Logger, value int) *logrus.Logger {
 		log.SetLevel(logrus.InfoLevel)
 	}
 	return log
+}
+
+// ConfigureDefaultLogger instantiates a default logger instance
+func ConfigureInternalLogger(newInternalLogger *logrus.Logger)  {
+	internalLogger = newInternalLogger
 }
 
 // ConfigureDefaultLogger instantiates a default logger instance
@@ -119,6 +125,7 @@ func getPackage () string {
 type F func(Logger)
 func printLog(f F) {
 	pkg := getPackage()
+	internalLogger.Debug("pkg: ", pkg)
 	if log, ok := loggers[pkg]; ok {
 		f(log)
 		return
